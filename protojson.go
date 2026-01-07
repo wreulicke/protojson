@@ -72,6 +72,24 @@ type MarshalOptions struct {
 	// It is an alias for EmitUnpopulated for backward compatibility.
 	// Deprecated: Use EmitUnpopulated instead.
 	EmitDefaultValues bool
+
+	// FieldMaskFunc is called for each field during marshaling to determine
+	// if the field value should be masked. If it returns true, the field value
+	// will be replaced with "***" in the JSON output.
+	//
+	// The function receives the FieldDescriptor which can be used to check:
+	// - Field name: fd.Name() or fd.JSONName()
+	// - Field type: fd.Kind()
+	// - Custom options: fd.Options() with proto.GetExtension()
+	// - Parent message: fd.ContainingMessage()
+	//
+	// This allows users to implement custom masking logic based on:
+	// - Custom field options (e.g., (mypackage.sensitive) = true)
+	// - Field naming patterns (e.g., fields containing "password", "token")
+	// - Any other criteria based on the field descriptor
+	//
+	// If FieldMaskFunc is nil, no masking is performed.
+	FieldMaskFunc func(fd protoreflect.FieldDescriptor) bool
 }
 
 // Marshal writes the given proto.Message in JSON format using default options.
@@ -226,6 +244,18 @@ func (e *encoder) marshalField(fd protoreflect.FieldDescriptor, v protoreflect.V
 
 // marshalSingular marshals a singular field value
 func (e *encoder) marshalSingular(fd protoreflect.FieldDescriptor, v protoreflect.Value) error {
+	// Check if this field should be masked
+	if e.opts.FieldMaskFunc != nil && e.opts.FieldMaskFunc(fd) {
+		// Mask string and bytes fields with "***"
+		kind := fd.Kind()
+		if kind == protoreflect.StringKind || kind == protoreflect.BytesKind {
+			e.w.WriteString(`"***"`)
+			return nil
+		}
+		// For other types, fall through to normal processing
+		// (user may have set mask condition for non-string/bytes fields)
+	}
+
 	switch fd.Kind() {
 	case protoreflect.BoolKind:
 		if v.Bool() {
