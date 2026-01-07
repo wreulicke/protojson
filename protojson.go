@@ -431,7 +431,7 @@ func (e *encoder) marshalMap(fd protoreflect.FieldDescriptor, m protoreflect.Map
 			e.w.WriteByte('"')
 		}
 
-		e.writeColon()
+		e.w.WriteByte(':')
 
 		// Marshal value
 		if err := e.marshalSingular(valFd, m.Get(k)); err != nil {
