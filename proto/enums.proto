@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package test.enums;
+
+option go_package = "github.com/masaya-saito/protojson/proto/enums";
+
+// Status enum for testing
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_ACTIVE = 1;
+  STATUS_INACTIVE = 2;
+  STATUS_PENDING = 3;
+}
+
+// Priority enum for testing
+enum Priority {
+  PRIORITY_UNSPECIFIED = 0;
+  PRIORITY_LOW = 1;
+  PRIORITY_MEDIUM = 2;
+  PRIORITY_HIGH = 3;
+  PRIORITY_CRITICAL = 4;
+}
+
+// EnumFields tests enum fields
+message EnumFields {
+  Status status = 1;
+  Priority priority = 2;
+}
+
+// RepeatedEnums tests repeated enum fields
+message RepeatedEnums {
+  repeated Status statuses = 1;
+  repeated Priority priorities = 2;
+}
+
+// NestedEnum tests nested enum definition
+message NestedEnum {
+  Type type = 1;
+
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+    TYPE_A = 1;
+    TYPE_B = 2;
+    TYPE_C = 3;
+  }
+}
+
+// DefaultEnum tests default enum value
+message DefaultEnum {
+  Status default_status = 1;
+}

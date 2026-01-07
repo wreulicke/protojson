@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package test.nested;
+
+option go_package = "github.com/masaya-saito/protojson/proto/nested";
+
+// Nested tests nested messages
+message Nested {
+  string id = 1;
+  Inner inner = 2;
+}
+
+message Inner {
+  string name = 1;
+  int32 value = 2;
+  DeepInner deep = 3;
+}
+
+message DeepInner {
+  string detail = 1;
+  repeated string tags = 2;
+}
+
+// MultipleNested tests multiple nested messages at same level
+message MultipleNested {
+  SimplePerson person = 1;
+  SimpleAddress address = 2;
+  SimpleContactInfo contact = 3;
+}
+
+message SimplePerson {
+  string name = 1;
+  int32 age = 2;
+}
+
+message SimpleAddress {
+  string street = 1;
+  string city = 2;
+  string country = 3;
+}
+
+message SimpleContactInfo {
+  string email = 1;
+  string phone = 2;
+}
+
+// RepeatedNested tests repeated nested messages
+message RepeatedNested {
+  repeated SimplePerson people = 1;
+  repeated SimpleAddress addresses = 2;
+}

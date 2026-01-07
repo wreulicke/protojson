@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package test.complex;
+
+option go_package = "github.com/masaya-saito/protojson/proto/complex";
+
+import "google/protobuf/timestamp.proto";
+
+// ComplexMessage tests complex nested structures
+message ComplexMessage {
+  string id = 1;
+  repeated User users = 2;
+  map<string, Project> projects = 3;
+  Settings settings = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  Role role = 4;
+  repeated string permissions = 5;
+  Profile profile = 6;
+  map<string, string> metadata = 7;
+}
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+  ROLE_ADMIN = 1;
+  ROLE_USER = 2;
+  ROLE_GUEST = 3;
+}
+
+message Profile {
+  string avatar_url = 1;
+  string bio = 2;
+  Address address = 3;
+  repeated SocialLink social_links = 4;
+}
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string country = 4;
+  string postal_code = 5;
+  Location location = 6;
+}
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message SocialLink {
+  string platform = 1;
+  string url = 2;
+}
+
+message Project {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  ProjectStatus status = 4;
+  repeated Task tasks = 5;
+  repeated string tags = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+enum ProjectStatus {
+  PROJECT_STATUS_UNSPECIFIED = 0;
+  PROJECT_STATUS_DRAFT = 1;
+  PROJECT_STATUS_ACTIVE = 2;
+  PROJECT_STATUS_COMPLETED = 3;
+  PROJECT_STATUS_ARCHIVED = 4;
+}
+
+message Task {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  TaskPriority priority = 4;
+  string assigned_to = 5;
+  repeated string labels = 6;
+  google.protobuf.Timestamp due_date = 7;
+
+  oneof result {
+    string success_message = 8;
+    string error_message = 9;
+  }
+}
+
+enum TaskPriority {
+  TASK_PRIORITY_UNSPECIFIED = 0;
+  TASK_PRIORITY_LOW = 1;
+  TASK_PRIORITY_MEDIUM = 2;
+  TASK_PRIORITY_HIGH = 3;
+}
+
+message Settings {
+  bool notifications_enabled = 1;
+  string theme = 2;
+  string language = 3;
+  map<string, FeatureFlag> features = 4;
+  Preferences preferences = 5;
+}
+
+message FeatureFlag {
+  bool enabled = 1;
+  string description = 2;
+  map<string, string> config = 3;
+}
+
+message Preferences {
+  int32 items_per_page = 1;
+  string date_format = 2;
+  string time_zone = 3;
+  repeated string favorite_projects = 4;
+}

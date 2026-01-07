@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package test.basic;
+
+option go_package = "github.com/masaya-saito/protojson/proto/basic";
+
+// BasicTypes tests all basic scalar types
+message BasicTypes {
+  string string_field = 1;
+  int32 int32_field = 2;
+  int64 int64_field = 3;
+  uint32 uint32_field = 4;
+  uint64 uint64_field = 5;
+  sint32 sint32_field = 6;
+  sint64 sint64_field = 7;
+  fixed32 fixed32_field = 8;
+  fixed64 fixed64_field = 9;
+  sfixed32 sfixed32_field = 10;
+  sfixed64 sfixed64_field = 11;
+  bool bool_field = 12;
+  float float_field = 13;
+  double double_field = 14;
+  bytes bytes_field = 15;
+}
+
+// OptionalFields tests optional fields
+message OptionalFields {
+  optional string optional_string = 1;
+  optional int32 optional_int32 = 2;
+  optional bool optional_bool = 3;
+}
+
+// EmptyMessage tests empty message
+message EmptyMessage {}
+
+// DefaultValues tests default values
+message DefaultValues {
+  string empty_string = 1;
+  int32 zero_int = 2;
+  bool false_bool = 3;
+  repeated string empty_array = 4;
+}

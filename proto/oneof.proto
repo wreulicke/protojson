@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package test.oneof;
+
+option go_package = "github.com/masaya-saito/protojson/proto/oneof";
+
+// OneOfFields tests oneof fields
+message OneOfFields {
+  string id = 1;
+
+  oneof value {
+    string string_value = 2;
+    int32 int_value = 3;
+    bool bool_value = 4;
+    Message message_value = 5;
+  }
+}
+
+message Message {
+  string content = 1;
+}
+
+// MultipleOneOf tests multiple oneof fields
+message MultipleOneOf {
+  oneof first {
+    string first_string = 1;
+    int32 first_int = 2;
+  }
+
+  oneof second {
+    bool second_bool = 3;
+    double second_double = 4;
+  }
+}
+
+// NestedOneOf tests nested message with oneof
+message NestedOneOf {
+  string name = 1;
+  Inner inner = 2;
+
+  message Inner {
+    oneof data {
+      string text = 1;
+      int32 number = 2;
+      bytes binary = 3;
+    }
+  }
+}
+
+// EmptyOneOf tests oneof with no field set
+message EmptyOneOf {
+  string id = 1;
+
+  oneof value {
+    string string_value = 2;
+    int32 int_value = 3;
+  }
+}

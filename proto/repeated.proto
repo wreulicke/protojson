@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package test.repeated;
+
+option go_package = "github.com/masaya-saito/protojson/proto/repeated";
+
+// RepeatedFields tests repeated fields
+message RepeatedFields {
+  repeated string strings = 1;
+  repeated int32 numbers = 2;
+  repeated bool bools = 3;
+  repeated double doubles = 4;
+  repeated bytes bytes_list = 5;
+}
+
+// RepeatedMessages tests repeated message fields
+message RepeatedMessages {
+  repeated Item items = 1;
+}
+
+message Item {
+  string name = 1;
+  int32 value = 2;
+}
+
+// EmptyRepeated tests empty repeated fields
+message EmptyRepeated {
+  repeated string empty_strings = 1;
+  repeated Item empty_items = 2;
+}

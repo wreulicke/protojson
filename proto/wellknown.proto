@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package test.wellknown;
+
+option go_package = "github.com/masaya-saito/protojson/proto/wellknown";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+// WellKnownTypes tests well-known types
+message WellKnownTypes {
+  google.protobuf.Timestamp timestamp = 1;
+  google.protobuf.Duration duration = 2;
+  google.protobuf.Any any = 3;
+  google.protobuf.Struct struct = 4;
+  google.protobuf.Value value = 5;
+  google.protobuf.ListValue list_value = 6;
+}
+
+// WrapperTypes tests wrapper types
+message WrapperTypes {
+  google.protobuf.StringValue string_value = 1;
+  google.protobuf.Int32Value int32_value = 2;
+  google.protobuf.Int64Value int64_value = 3;
+  google.protobuf.UInt32Value uint32_value = 4;
+  google.protobuf.UInt64Value uint64_value = 5;
+  google.protobuf.BoolValue bool_value = 6;
+  google.protobuf.FloatValue float_value = 7;
+  google.protobuf.DoubleValue double_value = 8;
+  google.protobuf.BytesValue bytes_value = 9;
+}
+
+// EmptyType tests empty type
+message EmptyType {
+  string id = 1;
+  google.protobuf.Empty empty = 2;
+}
+
+// RepeatedWellKnown tests repeated well-known types
+message RepeatedWellKnown {
+  repeated google.protobuf.Timestamp timestamps = 1;
+  repeated google.protobuf.Duration durations = 2;
+}
+
+// NullableWrappers tests nullable wrapper types
+message NullableWrappers {
+  google.protobuf.StringValue nullable_string = 1;
+  google.protobuf.Int32Value nullable_int = 2;
+  google.protobuf.BoolValue nullable_bool = 3;
+}

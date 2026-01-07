@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package test.edge_cases;
+
+option go_package = "github.com/masaya-saito/protojson/proto/edge_cases";
+
+// EdgeCases tests edge cases and special scenarios
+message EdgeCases {
+  // Unicode and special characters
+  string unicode_string = 1;
+  string emoji_string = 2;
+  string special_chars = 3;
+
+  // Large numbers
+  int64 large_int64 = 4;
+  uint64 large_uint64 = 5;
+
+  // Floating point edge cases
+  double positive_infinity = 6;
+  double negative_infinity = 7;
+  double nan_value = 8;
+  float float_precision = 9;
+
+  // Empty and null-like values
+  string empty_string = 10;
+  bytes empty_bytes = 11;
+  repeated string empty_array = 12;
+  map<string, string> empty_map = 13;
+}
+
+// DeepNesting tests deep nesting levels
+message DeepNesting {
+  Level1 level1 = 1;
+}
+
+message Level1 {
+  string data = 1;
+  Level2 level2 = 2;
+}
+
+message Level2 {
+  string data = 1;
+  Level3 level3 = 2;
+}
+
+message Level3 {
+  string data = 1;
+  Level4 level4 = 2;
+}
+
+message Level4 {
+  string data = 1;
+  Level5 level5 = 2;
+}
+
+message Level5 {
+  string data = 1;
+  repeated string items = 2;
+}
+
+// LargeMessage tests message with many fields
+message LargeMessage {
+  string field_001 = 1;
+  string field_002 = 2;
+  string field_003 = 3;
+  string field_004 = 4;
+  string field_005 = 5;
+  string field_006 = 6;
+  string field_007 = 7;
+  string field_008 = 8;
+  string field_009 = 9;
+  string field_010 = 10;
+  int32 field_011 = 11;
+  int32 field_012 = 12;
+  int32 field_013 = 13;
+  int32 field_014 = 14;
+  int32 field_015 = 15;
+  bool field_016 = 16;
+  bool field_017 = 17;
+  bool field_018 = 18;
+  bool field_019 = 19;
+  bool field_020 = 20;
+}
+
+// ReservedFields tests field numbers with gaps
+message ReservedFields {
+  string field_1 = 1;
+  string field_5 = 5;
+  string field_10 = 10;
+  string field_100 = 100;
+  string field_1000 = 1000;
+}
+
+// JsonNaming tests JSON naming conventions
+message JsonNaming {
+  string snake_case_field = 1;
+  string camelCaseField = 2;
+  string PascalCaseField = 3;
+  string field_with_123_numbers = 4;
+  string SCREAMING_SNAKE_CASE = 5;
+}
