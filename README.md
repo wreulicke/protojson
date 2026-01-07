@@ -8,6 +8,7 @@ Protocol Buffers to JSON encoder for Go that is compatible with the standard `go
 
 - **Streaming Support**: Encodes directly to `io.Writer` without intermediate buffers
 - **Standard Compatible**: Drop-in replacement for `google.golang.org/protobuf/encoding/protojson`
+- **Field Masking**: Flexible field-level masking support for sensitive data (e.g., passwords, tokens)
 - **Well-Known Types**: Full support for Protocol Buffer well-known types:
   - `google.protobuf.Timestamp`
   - `google.protobuf.Duration`
@@ -43,6 +44,33 @@ if err := encoder.Encode(msg); err != nil {
     log.Fatal(err)
 }
 ```
+
+### Field Masking
+
+Mask sensitive fields during JSON encoding by providing a custom function that inspects field descriptors:
+
+```go
+import (
+    "strings"
+    "github.com/wreulicke/protojson"
+    "google.golang.org/protobuf/reflect/protoreflect"
+)
+
+// Mask fields by name pattern
+opts := protojson.MarshalOptions{
+    FieldMaskFunc: func(fd protoreflect.FieldDescriptor) bool {
+        name := string(fd.Name())
+        return strings.Contains(name, "password") ||
+               strings.Contains(name, "token") ||
+               strings.Contains(name, "secret")
+    },
+}
+
+encoder := protojson.NewEncoderWithOptions(writer, opts)
+encoder.Encode(msg) // sensitive fields will be replaced with "***"
+```
+
+**Note**: Only `string` and `bytes` fields are masked with `"***"`. Other field types are processed normally even if the mask function returns true.
 
 ## License
 
